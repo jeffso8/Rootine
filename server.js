@@ -1,13 +1,24 @@
 const express = require("express") // our express server
 const bodyParser = require("body-parser") // requiring the body-parser
 const db = require('./database');
+const passport = require('./passport')
+const flash = require('connect-flash');
+const session = require('express-session');
+
+const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
 const app = express() // generate an app object
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(session({ cookie: { maxAge: 60000 }, 
+                  secret: 'woot',
+                  resave: false, 
+                  saveUninitialized: false}));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
 //Parses body in Json format
 app.use(bodyParser.json());
 
@@ -27,72 +38,19 @@ app.use(function (req, res, next) {
     next();
 });
 
-const userSchema = new db.Schema({
-	username: String,
-	password: String
+app.use(bodyParser.json()) // telling the app that we are going to use json to handle incoming payload
+
+
+app.get('/logins', function(req, res) {
+  console.log("Hello");
 });
 
-const User = new db.model("User", userSchema);
+app.post('/login',
+  passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login',
+                                   failureFlash: true })
+);
 
-app.route("/user")
-	.get(function(req, res) {
-		console.log("called", req);
-    User.find(function(err, foundUsers) {
-      if (!err) {
-        console.log(foundUsers);
-      } else {
-        console.log(err);
-      }
-    });
-  })
-
-  .post(function(req, res) {
-    console.log("Jeffffffffffffffffffffffffffff", req.body);
-
-    const newUser = new User({
-      username: req.body.title,
-      password: req.body.content
-  });
-	
-	  console.log(newUser + "added new user");
-
-    newUser.save(function(err) {
-      if (!err) {
-        res.send("Succesfully added new User");
-      } else {
-        res.send(err);
-      }
-    });
-  })
-
-  .delete(function(req, res) {
-    User.deleteMany({}, function(err) {
-      if (!err) {
-        res.send("Succesfully deleted all artiles");
-      } else {
-        res.send(err);
-      }
-    });
-  });
-
-// Requests targeting a specific User //
-
-app.route("/user/:UserTitle")
-
-  .get(function(req, res) {
-    User.find({
-      title: req.params.UserTitle
-    }, function(err, foundUser) {
-      if (!err) {
-        res.send(foundUser);
-      } else {
-        res.send("No Users found, or error.");
-      }
-    });
-  });
-
-const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
-app.use(bodyParser.json()) // telling the app that we are going to use json to handle incoming payload
 
 app.listen(PORT, () => {
   // listening on port 3001
