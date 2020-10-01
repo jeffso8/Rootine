@@ -47,14 +47,14 @@ app.use(bodyParser.json()) // telling the app that we are going to use json to h
 
 //login via email and password
 app.post('/login',
-  passport.authenticate('local-login', { successRedirect: '/',
+  passport.authenticate('local-login', { successRedirect: '/dashboard',
                                    failureRedirect: '/login',
                                    failureFlash: true })
 );
 
 //signup via email and password
 app.post('/signup',
-  passport.authenticate('local-signup', { successRedirect: '/',
+  passport.authenticate('local-signup', { successRedirect: '/dashboard',
                                    failureRedirect: '/signup',
                                    failureFlash: true })
 );
