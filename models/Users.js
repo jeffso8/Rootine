@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema(
 		last_name:{
 			type: String
 		},
-		username: {
+		email: {
 			type: String,
 			required: true,
 			unique: true
@@ -21,15 +21,12 @@ const UserSchema = new mongoose.Schema(
 );
 
 UserSchema.methods.generateHash = function(password){
-
+	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
 UserSchema.methods.validPassword = function(password){
-	console.log(password);
-	console.log(this.password);
-	console.log(password == this.password);
-
-	return password == this.password;
+	return bcrypt.compareSync(password, this.password);
+	//return password == this.password;
 };
 
 User = mongoose.model("User", UserSchema);

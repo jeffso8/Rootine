@@ -41,13 +41,21 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json()) // telling the app that we are going to use json to handle incoming payload
 
 
-app.get('/logins', function(req, res) {
-  console.log("Hello");
-});
+// app.get('/logins', function(req, res) {
+//   console.log("Hello");
+// });
 
+//login via email and password
 app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
+  passport.authenticate('local-login', { successRedirect: '/',
                                    failureRedirect: '/login',
+                                   failureFlash: true })
+);
+
+//signup via email and password
+app.post('/signup',
+  passport.authenticate('local-signup', { successRedirect: '/',
+                                   failureRedirect: '/signup',
                                    failureFlash: true })
 );
 
