@@ -4,6 +4,7 @@ const db = require('./database');
 const passport = require('./passport')
 const flash = require('connect-flash');
 const session = require('express-session');
+const User = require('./models/Users')
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
@@ -44,6 +45,17 @@ app.use(bodyParser.json()) // telling the app that we are going to use json to h
 // app.get('/logins', function(req, res) {
 //   console.log("Hello");
 // });
+
+app.get('/users', function(req,res){
+    User.find(function(err, foundUsers) {
+      if (!err) {
+        console.log(foundUsers);
+        res.send(foundUsers);
+      } else {
+        console.log(err);
+      }
+    });
+})
 
 //login via email and password
 app.post('/login',
