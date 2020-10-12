@@ -4,7 +4,9 @@ const db = require('./database');
 const passport = require('./passport')
 const flash = require('connect-flash');
 const session = require('express-session');
-const User = require('./models/Users')
+const User = require('./models/Users');
+const Habits = require('./models/Habits');
+const { Schema } = require("./database");
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
@@ -56,6 +58,27 @@ app.get('/users', function(req,res){
       }
     });
 })
+
+app.get('/habits', function(req,res){
+    Habits.find({user:"5f83b1d31249e76b311df968"}, function(err, foundHabits) {
+      if (!err) {
+        console.log(foundHabits);
+        res.send(foundHabits);
+      } else {
+        console.log(err);
+      }
+    });
+})
+
+// app.post('/habits', function(req, res){
+//   console.log(User);
+//     newHabit = new Habits({
+//       habit_name: req.body.new_habit,
+//       user: "5f83b1d31249e76b311df968" 
+//     });
+//     newHabit.save();
+// })
+
 
 //login via email and password
 app.post('/login',

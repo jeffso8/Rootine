@@ -83,11 +83,8 @@ passport.use('local-signup', new LocalStrategy({
                     return done(null, newUser);
                 });
             }
-
         });    
-
-        });
-
-    }));
+    });
+}));
 
 module.exports = passport;
