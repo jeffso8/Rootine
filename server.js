@@ -2,6 +2,8 @@ const express = require("express") // our express server
 const bodyParser = require("body-parser") // requiring the body-parser
 const db = require('./database');
 const passport = require('./passport')
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const flash = require('connect-flash');
 const session = require('express-session');
 const User = require('./models/Users');
@@ -12,18 +14,20 @@ const PORT = process.env.PORT || 3001 // port that the server is running on => l
 
 const app = express() // generate an app object
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
-app.use(session({ cookie: { maxAge: 60000 }, 
-                  secret: 'woot',
-                  resave: false, 
-                  saveUninitialized: false}));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-//Parses body in Json format
+app.use(cookieParser('woot'));
 app.use(bodyParser.json());
+app.use(session({ cookie: { maxAge: 60000}, 
+                  secret: 'woot',
+                  resave: false, 
+                  saveUninitialized: true,
+                  passport: {user: {_id: ''}}
+                }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Add headers
 app.use(function (req, res, next) {
@@ -41,8 +45,14 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(bodyParser.json()) // telling the app that we are going to use json to handle incoming payload
-
+// function loggedIn(req, res, next){
+//   console.log(req.user);
+//   if(req.user){
+//     next();
+//   } else {
+//     res.redirect('/login');
+//   }
+// }
 
 // app.get('/logins', function(req, res) {
 //   console.log("Hello");
@@ -59,8 +69,9 @@ app.get('/users', function(req,res){
     });
 })
 
-app.get('/habits', function(req,res){
-    Habits.find({user:"5f83b1d31249e76b311df968"}, function(err, foundHabits) {
+app.get('/habits', function(req, res){
+  //TODO: find habits that have that userid
+    Habits.find({user: req.user.id }, function(err, foundHabits) {
       if (!err) {
         console.log(foundHabits);
         res.send(foundHabits);
@@ -70,14 +81,17 @@ app.get('/habits', function(req,res){
     });
 })
 
-// app.post('/habits', function(req, res){
-//   console.log(User);
-//     newHabit = new Habits({
-//       habit_name: req.body.new_habit,
-//       user: "5f83b1d31249e76b311df968" 
-//     });
-//     newHabit.save();
-// })
+app.post('/habits', function(req, res){
+  console.log(User);
+  console.log(req.user);
+      newHabit = new Habits({
+      habit_name: req.body.new_habit,
+      //TODO: need to find a way to have user ID of person logged in to be added to every habit
+      user: req.user.id 
+    });
+    newHabit.save();
+    res.redirect('/dashboard');
+})
 
 
 //login via email and password
