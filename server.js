@@ -9,6 +9,10 @@ const session = require('express-session');
 const User = require('./models/Users');
 const Habits = require('./models/Habits');
 const { Schema } = require("./database");
+const e = require("express");
+const Tracker = require("./models/Tracker");
+const moment = require("moment");
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
@@ -20,7 +24,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser('woot'));
 app.use(bodyParser.json());
-app.use(session({ cookie: { maxAge: 60000}, 
+app.use(session({ cookie: { maxAge: 86400000}, 
                   secret: 'woot',
                   resave: false, 
                   saveUninitialized: true,
@@ -45,15 +49,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-// function loggedIn(req, res, next){
-//   console.log(req.user);
-//   if(req.user){
-//     next();
-//   } else {
-//     res.redirect('/login');
-//   }
-// }
-
 // app.get('/logins', function(req, res) {
 //   console.log("Hello");
 // });
@@ -66,33 +61,93 @@ app.get('/users', function(req,res){
       } else {
         console.log(err);
       }
-    });
-})
+  });
+});
 
-app.get('/habits', function(req, res){
+app.post('/tracker', function(req,res){
+  console.log('req.body', req.body.done);
+  Tracker.findOneAndUpdate({date: moment().format('L'), user: req.user.id}, 
+  {$set: {"habits.$[el].done": !req.body.done}}, {arrayFilters: [{"el._id": req.body._id}], new: true}, 
+  function (err, obj) {
+    console.log('err', err);
+    console.log('obj', obj);
+  });
+});
+
+app.get('/tracker', function(req, res){
   //TODO: find habits that have that userid
-    Habits.find({user: req.user.id }, function(err, foundHabits) {
-      if (!err) {
-        console.log(foundHabits);
-        res.send(foundHabits);
+    Tracker.find({date: moment().format('L'), user: req.user.id}, function(err, foundTracker) {
+      if(foundTracker.length) {
+        res.send(foundTracker[0].habits);
       } else {
-        console.log(err);
+        Habits.find({user: req.user.id }, function(err, foundHabits) {
+          console.log('foundHabits', foundHabits);
+          if (!err) {
+            const parsedHabits = foundHabits.map(habit => {
+             return {
+                habit_name: habit.habit_name,
+                done: false,
+              }
+            });
+            console.log('parsedhabits', parsedHabits);
+
+            newTracker = new Tracker({
+              date: moment().format('L'),
+              habits: parsedHabits,
+              user: req.user.id
+            });
+            newTracker.save();
+            console.log('newTracker', newTracker);
+
+            res.send(newTracker.habits);
+          } else {
+            console.log(err);
+          }
+      });
       }
     });
-})
+
+});
 
 app.post('/habits', function(req, res){
-  console.log(User);
-  console.log(req.user);
-      newHabit = new Habits({
+    newHabit = new Habits({
       habit_name: req.body.new_habit,
       //TODO: need to find a way to have user ID of person logged in to be added to every habit
       user: req.user.id 
     });
     newHabit.save();
-    res.redirect('/dashboard');
-})
+    console.log('newHabit', newHabit);
+    const modifyHabit = {
+      habit_name: newHabit.habit_name,
+      done: false
+    };
 
+    Tracker.findOneAndUpdate({date: moment().format('L'), user: req.user.id}, {$push: {habits: modifyHabit}}, 
+      function(err, obj) {
+        console.log('err', err);
+        console.log('obj', obj);
+      }
+    ); 
+
+    // Tracker.find({date: moment().format('L'), user: req.user.id}, function(err, foundTracker) {
+    //   if(foundTracker.length) {
+    //     Habits.find({user: req.user.id }, function(err, foundHabits) {
+    //       console.log('foundHabits', foundHabits);
+    //       if (!err) {
+    //         const parsedHabits = foundHabits.map(habit => {
+    //          return {
+    //             habit_name: habit.habit_name,
+    //             done: false,
+    //           }
+    //         });
+    //         foundTracker.update()
+    //       } else {
+    //         console.log(err);
+    //       }
+    //   });
+  
+      res.redirect('/dashboard');
+});
 
 //login via email and password
 app.post('/login',
@@ -105,7 +160,8 @@ app.post('/login',
 app.post('/signup',
   passport.authenticate('local-signup', { successRedirect: '/dashboard',
                                    failureRedirect: '/signup',
-                                   failureFlash: true })
+                                   failureFlash: true,
+                                   isLoggedIn: true })
 );
 
 

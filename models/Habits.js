@@ -1,5 +1,6 @@
 const mongoose = require("../database");
 const { Schema } = require("../database");
+const { removeAllListeners } = require("./Users");
 
 const HabitSchema = new mongoose.Schema(
 	{
