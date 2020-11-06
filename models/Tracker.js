@@ -7,6 +7,7 @@ const TrackerSchema = new mongoose.Schema(
     habits: [
       {
         habit_name: String,
+        days: Array,
         done: Boolean,
       }
     ],

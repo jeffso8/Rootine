@@ -76,20 +76,33 @@ app.post('/tracker', function(req,res){
 
 app.get('/tracker', function(req, res){
   //TODO: find habits that have that userid
+  const dayMap = {
+    'Monday' : 0,
+    'Tuesday' : 1,
+    'Wednesday' : 2,
+    'Thursday' : 3,
+    'Friday' : 4,
+    'Saturday' : 5,
+    'Sunday' : 6,
+  }
+  const day = moment().format('dddd');
+  const dayToIndexFilter = dayMap[day];
+
     Tracker.find({date: moment().format('L'), user: req.user.id}, function(err, foundTracker) {
       if(foundTracker.length) {
         res.send(foundTracker[0].habits);
       } else {
         Habits.find({user: req.user.id }, function(err, foundHabits) {
-          console.log('foundHabits', foundHabits);
           if (!err) {
-            const parsedHabits = foundHabits.map(habit => {
+            console.log("foundHabits", foundHabits);
+            const filteredHabits = foundHabits.filter(habit => habit.days[dayToIndexFilter]);
+            console.log("filteredHabits", filteredHabits);
+            const parsedHabits = filteredHabits.map(habit => {
              return {
                 habit_name: habit.habit_name,
                 done: false,
               }
             });
-            console.log('parsedhabits', parsedHabits);
 
             newTracker = new Tracker({
               date: moment().format('L'),
@@ -97,7 +110,6 @@ app.get('/tracker', function(req, res){
               user: req.user.id
             });
             newTracker.save();
-            console.log('newTracker', newTracker);
 
             res.send(newTracker.habits);
           } else {
@@ -110,15 +122,30 @@ app.get('/tracker', function(req, res){
 });
 
 app.post('/habits', function(req, res){
+  const dayMap = {
+    'Monday' : 0,
+    'Tuesday' : 1,
+    'Wednesday' : 2,
+    'Thursday' : 3,
+    'Friday' : 4,
+    'Saturday' : 5,
+    'Sunday' : 6,
+  }
+  const day = moment().format('dddd');
+  const dayToIndexFilter = dayMap[day];
+
     newHabit = new Habits({
-      habit_name: req.body.new_habit,
+      habit_name: req.body.name,
       //TODO: need to find a way to have user ID of person logged in to be added to every habit
-      user: req.user.id 
+      user: req.user.id,
+      days: req.body.dates
     });
     newHabit.save();
-    console.log('newHabit', newHabit);
+
+    if (newHabit.days[dayToIndexFilter]){
     const modifyHabit = {
       habit_name: newHabit.habit_name,
+      days: newHabit.days,
       done: false
     };
 
@@ -128,25 +155,17 @@ app.post('/habits', function(req, res){
         console.log('obj', obj);
       }
     ); 
-
-    // Tracker.find({date: moment().format('L'), user: req.user.id}, function(err, foundTracker) {
-    //   if(foundTracker.length) {
-    //     Habits.find({user: req.user.id }, function(err, foundHabits) {
-    //       console.log('foundHabits', foundHabits);
-    //       if (!err) {
-    //         const parsedHabits = foundHabits.map(habit => {
-    //          return {
-    //             habit_name: habit.habit_name,
-    //             done: false,
-    //           }
-    //         });
-    //         foundTracker.update()
-    //       } else {
-    //         console.log(err);
-    //       }
-    //   });
-  
+    }
       res.redirect('/dashboard');
+});
+
+app.get('/habits', function(req, res){
+  Habits.find({user: req.user.id }, function(err, foundHabits) {
+    if (!err) {
+       res.send(foundHabits);
+    } else {
+      console.log(err);
+    }});
 });
 
 //login via email and password
