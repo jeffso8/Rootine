@@ -21,6 +21,8 @@ export async function getHabits(){
     'Content-Type': 'application/json',
   	},
 	}).then(res => {
+		console.log('getHabits res', res);
+
 		return res.json();
 	});
 	console.log('getHabits', data);
