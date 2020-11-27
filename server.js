@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
 //   console.log("Hello");
 // });
 
-app.get('/*', function (req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
 });
 
