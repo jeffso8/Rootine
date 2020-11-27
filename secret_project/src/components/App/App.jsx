@@ -8,6 +8,7 @@ import ContextProvider from './ContextProvider';
 
 
 // import Button from 'react-bootstrap/Button';
+export const TrackerContext = React.createContext({});
 
 function App() {
   return (
