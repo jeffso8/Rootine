@@ -13,13 +13,16 @@ const e = require("express");
 const Tracker = require("./models/Tracker");
 const Completion = require("./models/Completion");
 const moment = require("moment");
-const mongoose = require("mongoose");
-const cors = require('cors');
+const path = require("path");
+
 
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
 const app = express() // generate an app object
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'secret_project')))
 
 app.use(bodyParser.urlencoded({
   extended: true
