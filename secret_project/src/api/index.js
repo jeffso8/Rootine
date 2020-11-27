@@ -9,6 +9,7 @@ export async function getTracker(){
 	const data = await fetch("/tracker").then(res => {
 		return res.json();
 	})
+	console.log('getTracker', data);
 	return data;
 };
 
@@ -16,6 +17,8 @@ export async function getHabits(){
 	const data = await fetch("/habits").then(res => {
 		return res.json();
 	})
+	console.log('getHabits', data);
+
 	return data;
 };
 
