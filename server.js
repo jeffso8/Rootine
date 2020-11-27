@@ -59,6 +59,10 @@ app.use(function (req, res, next) {
 //   console.log("Hello");
 // });
 
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.get('/users', function(req,res){
     User.find(function(err, foundUsers) {
       if (!err) {
