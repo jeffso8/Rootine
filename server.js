@@ -21,8 +21,6 @@ const PORT = process.env.PORT || 3001 // port that the server is running on => l
 
 const app = express() // generate an app object
 
-// Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'secret_project/build')))
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -58,6 +56,9 @@ app.use(function (req, res, next) {
 // app.get('/logins', function(req, res) {
 //   console.log("Hello");
 // });
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'secret_project/build')));
 
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));

@@ -14,9 +14,15 @@ export async function getTracker(){
 };
 
 export async function getHabits(){
-	const data = await fetch("/habits").then(res => {
+	console.log('getHabits 1');
+	const data = await fetch("/habits", {
+		method: 'GET',
+  	headers: {
+    'Content-Type': 'application/json',
+  	},
+	}).then(res => {
 		return res.json();
-	})
+	});
 	console.log('getHabits', data);
 
 	return data;
