@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "heroku-postbuild": "cd secret_project && npm install && npm run build"
+    "heroku-postbuild": "cd secret_project && ls && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
