@@ -60,7 +60,7 @@ app.use(function (req, res, next) {
 // });
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
 });
 
 app.get('/users', function(req,res){
