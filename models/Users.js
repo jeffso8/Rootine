@@ -1,5 +1,6 @@
 const mongoose = require("../database");
 const bcrypt = require("bcrypt");
+const findOrCreate = require("mongoose-findorcreate");
 const { Schema } = require("../database");
 
 const UserSchema = new mongoose.Schema(
@@ -25,6 +26,8 @@ const UserSchema = new mongoose.Schema(
 	}	
 );
 
+UserSchema.plugin(findOrCreate);
+
 UserSchema.methods.generateHash = function(password){
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
@@ -33,6 +36,7 @@ UserSchema.methods.validPassword = function(password){
 	return bcrypt.compareSync(password, this.password);
 	//return password == this.password;
 };
+
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
