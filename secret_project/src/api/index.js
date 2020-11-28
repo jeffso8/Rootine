@@ -49,6 +49,7 @@ export async function getCompletions(){
 };
 
 export async function getHabitHistory(route){
+	console.log('route', route);
 	const data = await fetch(route).then(res => {
 		console.log("getHabitHistoryRes", res);
 		return res.json();
