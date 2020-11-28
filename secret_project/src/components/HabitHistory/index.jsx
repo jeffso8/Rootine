@@ -13,7 +13,8 @@ function HabitHistory() {
 
   useEffect(() => {
       getHabitHistory(`habit/${id}`).then((res)=> {
-          setHabitHistory(res[0])
+        console.log(res[0]);
+          setHabitHistory(res)
       });
   }, []);
 
