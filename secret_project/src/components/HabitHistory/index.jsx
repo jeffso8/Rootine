@@ -5,14 +5,14 @@ function HabitHistory() {
   const [habitHistory, setHabitHistory] = useState('');
   
   const queryString = window.location.pathname.split("/");
-  const id = queryString[3]
+  const id = queryString[2];
 
   const style = {
     textAlign:"center"
-  }
+  };
 
   useEffect(() => {
-      getHabitHistory(`habit/${id}`).then((res)=> {
+      getHabitHistory(`habits/${id}`).then((res)=> {
         console.log(res[0]);
           setHabitHistory(res)
       });
