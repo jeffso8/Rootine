@@ -23,13 +23,12 @@ export async function getHabits(){
 		},
 	}).then(res => {
 		console.log('getHabits res', typeof res);
-		console.log('jsonparse', JSON.parse(res));
-
+		console.log("res.json", res.json());
 		return res.json();
+	}).then(data => {
+		console.log('getHabits', data);
+		return data
 	});
-	console.log('getHabits', data);
-
-	return data;
 };
 
 export async function getCompletions(){

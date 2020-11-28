@@ -67,9 +67,6 @@ app.use(function (req, res, next) {
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'secret_project/build')));
 
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
-});
 
 app.get('/users', function(req,res){
     User.find(function(err, foundUsers) {
@@ -262,6 +259,10 @@ app.get('/auth/google/rootine',
     // Successful authentication, redirect home.
     res.redirect('/dashboard');
   });
+
+  // app.get('*', function (req, res) {
+  //   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
+  // });
 
 app.listen(PORT, () => {
   // listening on port 3001
