@@ -14,12 +14,19 @@ const Tracker = require("./models/Tracker");
 const Completion = require("./models/Completion");
 const moment = require("moment");
 const path = require("path");
+const cors = require('cors');
 
 
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
 const app = express() // generate an app object
+const corsOptions = {
+  origin: 'https://rootine-project.herokuapp.com',
+  optionsSuccessStatus: 200
+}
+app.use(cors(corsOptions));
+app.options('*', cors());
 
 
 app.use(bodyParser.urlencoded({
