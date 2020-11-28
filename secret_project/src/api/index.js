@@ -15,7 +15,7 @@ export async function getTracker(){
 
 
 export async function getHabits(){
-	const data = await fetch("/api/habits").then(res => {
+	const data = await fetch("/habits").then(res => {
 		return res.json();
 	})
 	console.log('getHabits', data);

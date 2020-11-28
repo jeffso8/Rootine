@@ -175,7 +175,7 @@ app.get('/completion', function(req,res){
   })
 });
 
-app.post('/api/habits', function(req, res){
+app.post('/habits', function(req, res){
   const dayMap = {
     'Monday' : 0,
     'Tuesday' : 1,
