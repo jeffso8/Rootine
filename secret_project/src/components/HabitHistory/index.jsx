@@ -4,14 +4,15 @@ import {getHabitHistory} from 'api';
 function HabitHistory() {
   const [habitHistory, setHabitHistory] = useState('');
   
-  const queryString = window.location.pathname;
+  const queryString = window.location.pathname.split("/");
+  const id = queryString[2]
 
   const style = {
     textAlign:"center"
   }
 
   useEffect(() => {
-      getHabitHistory(queryString).then((res)=> {
+      getHabitHistory(`habit/${id}`).then((res)=> {
           setHabitHistory(res[0])
       });
   }, []);

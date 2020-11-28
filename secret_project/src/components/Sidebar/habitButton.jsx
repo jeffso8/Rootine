@@ -5,7 +5,7 @@ function HabitButton(props) {
   const { username, children } = props;
   return (
     <li className="nav-item">
-      <a className="nav-link" href={`/habits/${children}`}>
+      <a className="nav-link" href={`/habithistory/${children}`}>
         {username}
       </a>
     </li>
