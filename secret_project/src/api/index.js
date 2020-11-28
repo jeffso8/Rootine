@@ -22,7 +22,7 @@ export async function getHabits(){
 			'Accept': 'application/json'
 		},
 	}).then(res => {
-		console.log('getHabits res', res);
+		console.log('getHabits res', res.text());
 
 		return res.json();
 	});
