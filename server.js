@@ -260,7 +260,7 @@ app.get('/auth/google/rootine',
     res.redirect('/dashboard');
   });
 
-  app.get('*', function (req, res) {
+  app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
   });
 
