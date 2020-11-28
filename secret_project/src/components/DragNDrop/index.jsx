@@ -23,7 +23,6 @@ function DragNDrop() {
   }, todoList);
 
   const onDragEnd = ((result) => {
-    console.log('result', result);
     const start = result.source.droppableId;
     const finish = result.destination?.droppableId || start;
 

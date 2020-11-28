@@ -4,7 +4,6 @@ const db = require('./database');
 const passport = require('./passport');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
-const flash = require('connect-flash');
 const session = require('express-session');
 const User = require('./models/Users');
 const Habits = require('./models/Habits');
@@ -71,7 +70,6 @@ app.use(express.static(path.join(__dirname, 'secret_project/build')));
 app.get('/users', function(req,res){
     User.find(function(err, foundUsers) {
       if (!err) {
-        console.log(foundUsers);
         res.send(foundUsers);
       } else {
         console.log(err);
@@ -101,7 +99,6 @@ app.get('/tracker', function(req, res){
   }
   const day = moment().format('dddd');
   const dayToIndexFilter = dayMap[day];
-
   Tracker.find({date: moment().format('L'), user: req.user.id}, function(err, foundTracker) {
     if(foundTracker.length) {
       res.send(foundTracker[0].habits);
@@ -135,13 +132,12 @@ app.get('/tracker', function(req, res){
               Tracker.find({date: moment().subtract(1, "day").format('L'), user: req.user.id}, function(err, foundTracker) {
                 const foundTrackerHabits = foundTracker[0].habits;
                 const uncompletedList = foundTrackerHabits.filter(habit => !habit.done);
-                console.log('uncompletedList', uncompletedList);
                 if (!uncompletedList.length) {
-                  Completion.findOneAndUpdate({user: req.user.id, "dates.$.month": moment().format('M')},
-                  {$addToset: {"dates.$[el.month].days": moment().subtract(1,"day").format('D')}}, {arrayFilters: [{"el.month": moment().format('M')}], upsert: true}, 
+                  Completion.findOneAndUpdate({user: req.user.id, dates: {$elemMatch: {month : { $gte: moment().format('M')}}}},
+                  {$push: {"dates.$[el].days": moment().subtract(1,"day").format('D')}}, {arrayFilters: [{"el.month": moment().format('M')}], new: true}, 
                       function (err, obj) {
                         console.log('err', err);
-                        console.log('obj', obj);
+                        console.log('tracker find completion obj', obj);
                     });
                 }
               });
@@ -248,7 +244,6 @@ app.post('/signup',
                                    isLoggedIn: true })
 );
 
-
 app.get('/auth/google',
   passport.authenticate('google', { scope: ["profile", "email"] })
 );
@@ -260,9 +255,9 @@ app.get('/auth/google/rootine',
     res.redirect('/dashboard');
   });
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
-  });
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
+});
 
 app.listen(PORT, () => {
   // listening on port 3001

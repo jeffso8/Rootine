@@ -25,7 +25,6 @@ padding: 2px;
 
 function CardColumn(props) {
   const { title, dropId, habits} = props;
-  console.log(habits);
   return (
     <Container>
       <Title>{title}</Title>

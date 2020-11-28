@@ -14,7 +14,6 @@ export default function CalendarDayBody(props) {
   let weekdayshortname = [];
   let totalDays = [];
   const trackerData = useContext(TrackerContext);
-  console.log('trackerData', trackerData);
   // useEffect(() => {
   //   getCompletions().then((res) => {
   //     const completedDates = res[0].dates.filter(date => date.month == currMonth);

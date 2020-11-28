@@ -42,7 +42,6 @@ function HobbyForm(props) {
   }
 
   function handleName(event){
-    console.log(event.target.value);
     const value = event.target.value;
     setName(value);
   }
