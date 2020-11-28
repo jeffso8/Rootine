@@ -5,7 +5,7 @@ function HabitHistory() {
   const [habitHistory, setHabitHistory] = useState('');
   
   const queryString = window.location.pathname.split("/");
-  const id = queryString[2]
+  const id = queryString[3]
 
   const style = {
     textAlign:"center"
