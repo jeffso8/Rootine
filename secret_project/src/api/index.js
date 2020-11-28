@@ -18,8 +18,9 @@ export async function getHabits(){
 	const data = await fetch("/habits", {
 		method: 'GET',
   	headers: {
-    'Content-Type': 'application/json',
-  	},
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
 	}).then(res => {
 		console.log('getHabits res', res);
 
