@@ -22,7 +22,8 @@ export async function getHabits(){
 			'Accept': 'application/json'
 		},
 	}).then(res => {
-		console.log('getHabits res', res.text());
+		console.log('getHabits res', typeof res);
+		console.log('jsonparse', JSON.parse(res));
 
 		return res.json();
 	});
