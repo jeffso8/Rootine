@@ -175,7 +175,7 @@ app.get('/completion', function(req,res){
   })
 });
 
-app.post('/habits', function(req, res){
+app.post('/api/habits', function(req, res){
   const dayMap = {
     'Monday' : 0,
     'Tuesday' : 1,
@@ -260,9 +260,9 @@ app.get('/auth/google/rootine',
     res.redirect('/dashboard');
   });
 
-  // app.get('*', function (req, res) {
-  //   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
-  // });
+  app.get('*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
+  });
 
 app.listen(PORT, () => {
   // listening on port 3001
