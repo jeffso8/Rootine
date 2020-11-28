@@ -13,23 +13,31 @@ export async function getTracker(){
 	return data;
 };
 
+
 export async function getHabits(){
-	console.log('getHabits 1');
-	const data = await fetch("/api/habits", {
-		method: 'GET',
-  	headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		},
-	}).then(res => {
-		console.log('getHabits res', typeof res);
-		console.log("res.json", res.json());
+	const data = await fetch("/api/habits").then(res => {
 		return res.json();
-	}).then(data => {
-		console.log('getHabits', data);
-		return data
-	});
+	})
+	console.log('getHabits', data);
+	return data;
 };
+
+// export async function getHabits(){
+// 	console.log('getHabits 1');
+// 	const data = await fetch("/api/habits", {
+// 		method: 'GET',
+//   	headers: {
+// 			'Content-Type': 'application/json',
+// 			'Accept': 'application/json'
+// 		},
+// 	}).then(res => {
+// 		console.log("res.json", res.json());
+// 		return res.json();
+// 	}).then(data => {
+// 		console.log('getHabits', data);
+// 		return data
+// 	});
+// };
 
 export async function getCompletions(){
 	const data = await fetch("/completion").then(res => {
