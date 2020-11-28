@@ -15,7 +15,7 @@ export async function getTracker(){
 
 export async function getHabits(){
 	console.log('getHabits 1');
-	const data = await fetch("/habits", {
+	const data = await fetch("https://rootine-project.herokuapp.com/habits", {
 		method: 'GET',
   	headers: {
 			'Content-Type': 'application/json',
