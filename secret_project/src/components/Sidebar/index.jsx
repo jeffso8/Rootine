@@ -1,20 +1,11 @@
-
 import React, {useState, useEffect} from 'react';
 import './styles.css';
-import { Link } from 'react-router-dom';
-import {getHabits, getTest, getTracker} from 'api/index';
+import {getHabits} from 'api/index';
 import HabitButton from './habitButton';
+import { Link } from 'react-router-dom';
 
 function Sidebar() {
     const [habits, setHabit] = useState([]);
-
-    const styles = {
-        menu: {
-            margin:"10px"
-        },
-        title: {
-        }
-    };
     
     useEffect(() => {
         getHabits().then((res)=>{
@@ -26,6 +17,7 @@ function Sidebar() {
         return users.map((user) => {
             return (
             <HabitButton
+                key={user._id}
                 username={user.habit_name} 
                 children={user._id}
             >

@@ -2,7 +2,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
 // const env = require('./.env');
-let User = require('../models/Users');
+const User = require('../models/Users');
 require('dotenv').config();
 
 //used to serialize the user for the session
@@ -18,30 +18,31 @@ passport.deserializeUser(function(id, done){
 });
 
 
-passport.use('google', new GoogleStrategy({
+passport.use(new GoogleStrategy({
     clientID: process.env.REACT_APP_CLIENT_ID,
     clientSecret: process.env.REACT_APP_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/rootine",
+    callbackURL: "/auth/google/rootine",
     userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
-  },
-  function(accessToken, refreshToken, profile, done) {
-    console.log('called');
-    User.findOne({ googleId: profile.id }, function (err, user) {
-        if (err) { 
-            return done(err); 
-        }
-       if (user) {
-           return done(null, user);
+  }, (accessToken, refreshToken, profile, done) => {
+    User.findOne({googleId: profile.id}).then((currentUser) => {
+        console.log("profile", profile);
+        if(currentUser){
+            console.log("user is", currentUser);
+            done(null, currentUser);
         } else {
-            var newUser = new User();
-            newUser.google.id = profile.id;
-            newUser.email = profile.emails[0].value;
-
-            return done(null, newUser);
-         }
-    });
-  }
-));
+            new User({
+                googleId: profile.id,
+                first_name: profile.name.givenName,
+                last_name: profile.name.familyName,
+                email: profile._json.email
+            }).save().then((newUser) => {
+                console.log('new user created:' + newUser);
+                done(null, newUser);
+            });
+        }
+    }) 
+    })
+);
 
 //passport strategy for logging in
 passport.use("local-login", new LocalStrategy({

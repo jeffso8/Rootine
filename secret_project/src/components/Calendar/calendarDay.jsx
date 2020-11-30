@@ -1,8 +1,4 @@
-import React, {useState, useEffect} from "react";
-import moment from "moment";
-import {getCompletions, getTracker} from '../../api';
-
-
+import React from "react";
 
 function CalendarDay(props) {
 

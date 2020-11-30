@@ -19,6 +19,9 @@ const UserSchema = new mongoose.Schema(
 		password: {
 			type:String
 		},
+		googleId: {
+			type:String
+		},
 		habits: [{
 			type: Schema.Types.ObjectId,
 			ref: "Habits"

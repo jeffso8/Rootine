@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import HobbyForm from 'components/HobbyForm';
-import addButton from 'images/add_button.svg';
 import './styles.css';
 
 

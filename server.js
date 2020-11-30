@@ -20,48 +20,61 @@ const cors = require('cors');
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
 
 const app = express() // generate an app object
+
 const corsOptions = {
   origin: 'https://rootine-project.herokuapp.com',
   optionsSuccessStatus: 200
 }
-app.use(cors(corsOptions));
-app.options('*', cors());
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    credentials: true
+  })
+);
 
+// app.options('*', cors());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(cookieParser('woot'));
 app.use(bodyParser.json());
-app.use(session({ cookie: { maxAge: 86400000}, 
+app.use(session({ cookie: { maxAge: 24 * 60 * 60 * 100}, 
                   secret: 'woot',
                   resave: false, 
                   saveUninitialized: true,
                   passport: {user: {_id: ''}}
                 }));
+
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: "woot",
+//     maxAge: 24 * 60 * 60 * 100
+//   })
+// );
+
+app.use(cookieParser("woot"));
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// Add headers
-app.use(function (req, res, next) {
+// // Add headers
+// app.use(function (req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-    //Next tells the middleware to move on to the next instruction
-    next();
-});
-
-// app.get('/logins', function(req, res) {
-//   console.log("Hello");
+//     //Next tells the middleware to move on to the next instruction
+//     next();
 // });
+
 
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, 'secret_project/build')));
@@ -116,14 +129,9 @@ app.get('/tracker', function(req, res){
             if(!foundCompletion.length) {
               newCompletion = new Completion({
                 user: req.user.id,
-                dates: [
-                  {
-                  month: "10",
-                  days: ["22","23","24"]
-                  }, 
-                  {
-                  month: "11",
-                  days: ["6","7","8","10","11","12","22"]
+                dates: [{
+                  month: moment().format('M'),
+                  days: []
                   }]
               });
 
@@ -231,7 +239,7 @@ app.get('/habits/:habitID', function(req, res) {
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('/');
+  res.redirect('http://localhost:3000/');
 });
 
 //login via email and password
@@ -250,15 +258,41 @@ app.post('/signup',
 );
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ["profile", "email"] })
+  passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
 app.get('/auth/google/rootine', 
-  passport.authenticate('google', { failureRedirect: '/' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/dashboard');
+  passport.authenticate('google'), (err, req, res, next) => { // custom error handler to catch any errors, such as TokenError
+    if (err.name === 'TokenError') {
+     res.redirect('/auth/google'); // redirect them back to the login page
+    } else {
+     console.log(err);
+    }
+  },
+  (req, res) => { // On success, redirect back to '/'
+    res.redirect('http://localhost:3000/dashboard');
+  }
+);
+
+const authCheck = (req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({
+      authenticated: false,
+      message: "user has not been authenticated"
+    });
+  } else {
+    next();
+  }
+};
+
+app.get("/dashboard", authCheck, (req, res) => {
+  res.status(200).json({
+    authenticated: true,
+    message: "user is authenticated",
+    user: req.user,
+    cookies: req.cookies
   });
+});
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));

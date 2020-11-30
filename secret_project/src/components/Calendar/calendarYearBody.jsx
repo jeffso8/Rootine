@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import moment from "moment";
 import CalendarYear from "./calendarYear";
 
@@ -9,11 +9,6 @@ export default function CalendarYearBody(props) {
 	  .set("year", props)
 	  .subtract("year", 5)
     .format("Y");
-    
-	let nextfive = moment()
-	  .set("year", props)
-	  .add("year", 6)
-	  .format("Y");
 
 	let fiveyear = props.dates(prevfive, props.data);
 
@@ -27,7 +22,7 @@ export default function CalendarYearBody(props) {
 	let cells = [];
 
 	year.forEach((row, i) => {
-	  if (i % 3 !== 0 || i == 0) {
+	  if (i % 3 !== 0 || i === 0) {
 	    cells.push(row);
 	  } else {
 	    rows.push(cells);

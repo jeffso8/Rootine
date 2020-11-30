@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {postHabitDays} from 'api';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 import './styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

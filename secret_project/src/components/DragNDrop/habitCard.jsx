@@ -14,7 +14,7 @@ background-color: ${(props) => (props.isDragging ? 'lightgreen' : 'white')};
 `;
 
 function HabitCard(props) {
-  const {key, habit, index } = props;
+  const {habit, index } = props;
   return (
     <Draggable draggableId={habit} index={index}>
       {(provided) => (

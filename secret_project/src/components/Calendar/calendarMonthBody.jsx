@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import moment from "moment";
 import CalendarMonth from "./calendarMonth";
 
 export default function CalendarMonthBody(props) {
-  const[showYearTable, setShowYearTable] = useState(false);
-  const[showMonthTable, setShowMonthTable] = useState(false);
   
   const month = moment.months();
   let months = [];
@@ -18,7 +16,7 @@ export default function CalendarMonthBody(props) {
 	});
 
   months.forEach((row, i) => {
-	  if (i % 3 !== 0 || i == 0) {
+	  if (i % 3 !== 0 || i === 0) {
 	    cells.push(row);
 	  } else {
 	    rows.push(cells);

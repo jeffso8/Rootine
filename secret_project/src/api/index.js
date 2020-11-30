@@ -9,7 +9,6 @@ export async function getTracker(){
 	const data = await fetch("/tracker").then(res => {
 		return res.json();
 	})
-	console.log('getTracker', data);
 	return data;
 };
 
@@ -18,7 +17,6 @@ export async function getHabits(){
 	const data = await fetch("/habits").then(res => {
 		return res.json();
 	})
-	console.log('getHabits', data);
 	return data;
 };
 
@@ -43,15 +41,11 @@ export async function getCompletions(){
 	const data = await fetch("/completion").then(res => {
 		return res.json();
 	})
-	console.log("ssss", data);
-
 	return data;
 };
 
 export async function getHabitHistory(route){
-	console.log('route', route);
 	const data = await fetch(route).then(res => {
-		console.log("getHabitHistoryRes", res);
 		return res.json();
 	})
 	return data;
@@ -75,7 +69,6 @@ export async function postTracker(habit) {
 };
 
 export async function postHabitDays(args) {
-	console.log('postHabitdays');
 	await fetch("/habits", {
 		method: 'POST',
   	headers: {

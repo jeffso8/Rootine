@@ -3,7 +3,6 @@ import moment from "moment";
 import CalendarDayBody from './calendarDayBody';
 import CalendarMonthBody from './calendarMonthBody';
 import CalendarYearBody from './calendarYearBody';
-import { range } from "moment-range";
 import "./styles.css";
 
 export default class Calendar extends React.Component {
@@ -99,7 +98,6 @@ export default class Calendar extends React.Component {
 	getDates(startDate, stopDate) {
 	var dateArray = [];
 	var currentDate = moment(startDate);
-	var stopDate = moment(stopDate);
 	while (currentDate <= stopDate) {
 	  dateArray.push(moment(currentDate).format("YYYY"));
 	  currentDate = moment(currentDate).add(1, "year");
@@ -120,12 +118,12 @@ export default class Calendar extends React.Component {
 	    <div className="calendar-navi">
 	      <span
 	        onClick={e => {this.onPrev();}}
-	        class="calendar-button button-prev"
+	        className="calendar-button button-prev"
 	      />
 	      {!this.state.showMonthTable && (
 	        <span
 	          onClick={e => {this.showMonth();}}
-	          class="calendar-label"
+	          className="calendar-label"
 	        >
 	          {this.month()}
 	        </span>

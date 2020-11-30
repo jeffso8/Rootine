@@ -1,11 +1,7 @@
-import React, {
-  useState, useEffect, useCallback,
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-
 import CardColumn from './cardColumn';
 import { getTracker, postTracker } from '../../api';
-import moment from 'moment';
 
 function DragNDrop() {
   const [todoList, setTodoList] = useState([]);
@@ -13,14 +9,13 @@ function DragNDrop() {
 
   useEffect(() => {
     getTracker().then((res) => {
-      console.log('res', res);
       const filteredToDo = res.filter(habit => !habit.done);
       const filteredCompleted = res.filter(habit => habit.done);
       
       setTodoList(filteredToDo);
       setCompletedList(filteredCompleted);
     });
-  }, todoList);
+  }, []);
 
   const onDragEnd = ((result) => {
     const start = result.source.droppableId;
@@ -29,7 +24,6 @@ function DragNDrop() {
     if (!(start === finish)) {
       if (start === 'droppable-0') {
         const tdRemoved = todoList.splice([result.source.index], 1);
-        console.log("tdRemoved" + JSON.stringify(tdRemoved));
         setTodoList(todoList);
         setCompletedList(completedList.concat(tdRemoved));
         postTracker(tdRemoved[0]);
