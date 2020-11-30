@@ -18,7 +18,7 @@ const cors = require('cors');
 
 
 const PORT = process.env.PORT || 3001 // port that the server is running on => localhost:3001
-
+const url = process.env.URL;
 const app = express() // generate an app object
 
 const corsOptions = {
@@ -28,7 +28,7 @@ const corsOptions = {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
     credentials: true
   })
@@ -239,7 +239,7 @@ app.get('/habits/:habitID', function(req, res) {
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect('http://localhost:3000/');
+  res.redirect(`${url}/`);
 });
 
 //login via email and password
@@ -270,7 +270,7 @@ app.get('/auth/google/rootine',
     }
   },
   (req, res) => { // On success, redirect back to '/'
-    res.redirect('http://localhost:3000/dashboard');
+    res.redirect(`${url}/dashboard`);
   }
 );
 
@@ -285,14 +285,14 @@ const authCheck = (req, res, next) => {
   }
 };
 
-app.get("/dashboard", authCheck, (req, res) => {
-  res.status(200).json({
-    authenticated: true,
-    message: "user is authenticated",
-    user: req.user,
-    cookies: req.cookies
-  });
-});
+// app.get("/dashboard", authCheck, (req, res) => {
+//   res.status(200).json({
+//     authenticated: true,
+//     message: "user is authenticated",
+//     user: req.user,
+//     cookies: req.cookies
+//   });
+// });
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'secret_project/build', 'index.html'));
