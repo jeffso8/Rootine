@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './styles.css';
 import {getHabits} from 'api/index';
 import HabitButton from './habitButton';
+import dotenv from "dotenv";
 import { Link } from 'react-router-dom';
 
 function Sidebar() {
@@ -25,6 +26,7 @@ function Sidebar() {
             )
         });   
     };
+    console.log('SIDEBAR PROCESS ENV', process.env);
 
     return (
         <nav id="sidebarMenu" className="sidebar">

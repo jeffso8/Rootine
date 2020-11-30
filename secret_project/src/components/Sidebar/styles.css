@@ -84,7 +84,7 @@ body {
 .sidebar .nav-link-logout {
   position: fixed;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.482);
+  color: white;
   font-size: medium;
   padding: 2px;
   left: 4.7%;
