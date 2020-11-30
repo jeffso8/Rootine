@@ -229,6 +229,11 @@ app.get('/habits/:habitID', function(req, res) {
   });
 });
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 //login via email and password
 app.post('/login',
   passport.authenticate('local-login', { successRedirect: '/dashboard',

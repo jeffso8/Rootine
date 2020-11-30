@@ -15,6 +15,17 @@ body {
   border: #333;
 }
 
+.sidebar-logout {
+  position: fixed;
+  bottom: 10%;
+  left: 3.5%;
+  height: 30px;
+  width: 100px;
+  border-radius: 20px;
+  border: 1px solid #15768777;
+  background-color:  #157687b3;
+}
+
 .sidebar-title2 {
   padding-top: 1.5em;
   font-style: italic;
@@ -70,6 +81,16 @@ body {
   color: #333;
 }
 
+.sidebar .nav-link-logout {
+  position: fixed;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.482);
+  font-size: medium;
+  padding: 2px;
+  left: 4.7%;
+  bottom: 8.3%;
+}
+
 .sidebar .nav-link .feather {
   margin-right: 4px;
   color: #999;
@@ -109,4 +130,8 @@ body {
 
 .nav-item:hover a{
   color:  #007bff;
+}
+
+.sidebar-logout:hover a{
+  color:  #f4f4f4;
 }

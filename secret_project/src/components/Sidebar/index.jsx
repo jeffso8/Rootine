@@ -13,7 +13,6 @@ function Sidebar() {
             margin:"10px"
         },
         title: {
-
         }
     };
     
@@ -44,11 +43,11 @@ function Sidebar() {
                     </li>
                     {echoUsers(habits)} 
                 </ul>
-
-            <h6 class="sidebar-title2">
-                <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-                </a>
-            </h6>
+                <div className="sidebar-logout">
+                    <a className="nav-link-logout" href="http://localhost:3001/logout" aria-label="Log Out">
+                    Log Out
+                    </a>
+                </div>
             </div>
         </nav>
     )
