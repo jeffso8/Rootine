@@ -17,6 +17,7 @@ function ContextProvider({children}) {
 
       getCompletions().then((res2) => {
         const completedDates = res2[0].dates.filter(date => date.month === currMonth);
+        console.log("completedDates", res2);
         const completedDays = completedDates[0].days;
         setCompletedList(completedDays);
       });

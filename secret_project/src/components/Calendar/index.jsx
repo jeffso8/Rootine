@@ -95,15 +95,6 @@ export default class Calendar extends React.Component {
 	this.setYear(e.target.value);
 	};
 
-	getDates(startDate, stopDate) {
-	var dateArray = [];
-	var currentDate = moment(startDate);
-	while (currentDate <= stopDate) {
-	  dateArray.push(moment(currentDate).format("YYYY"));
-	  currentDate = moment(currentDate).add(1, "year");
-	}
-	return dateArray;
-	}
   
 	onDayClick = (e, d) => {
   this.setState({selectedDay: d}, () => 
@@ -140,7 +131,7 @@ export default class Calendar extends React.Component {
 	    </div>
 
 	    <div className="calendar-date">
-	      {this.state.showYearTable && <CalendarYearBody dates={this.getDates} data={this.year()} onClick={this.setYear}/>}
+	      {this.state.showYearTable && <CalendarYearBody data={this.year()} onClick={this.setYear}/>}
 	      {this.state.showMonthTable && (
 	        <CalendarMonthBody onClick={this.setMonth} />
 	      )}

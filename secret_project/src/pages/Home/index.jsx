@@ -5,6 +5,7 @@ import DragNDrop from 'components/DragNDrop';
 import Navbar from 'components/Navbar';
 import Calendar from 'components/Calendar';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Streaks from 'components/Streaks';
 
 
 function HomePage() {
@@ -19,6 +20,7 @@ function HomePage() {
       {showModal ? <HobbyForm setShowModal={setShowModal}/> : null}
       <Calendar />
       <DragNDrop />
+      <Streaks />
       </div>
       </div>
     </div>

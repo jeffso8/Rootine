@@ -6,11 +6,25 @@ export default function CalendarYearBody(props) {
 
   let year = [];
   let prevfive = moment()
-	  .set("year", props)
-	  .subtract("year", 5)
-    .format("Y");
+	  .set("year", props.data)
+	  .subtract(5, "year")
+		.format("Y");
+		
+	let getDate = (startDate, stopDate) => {
+		var dateArray = [];
+		var currentDate = moment(startDate);
+		console.log("currDate", currentDate);
+		console.log("stopDate", stopDate);
+		while (currentDate <= stopDate) {
+			dateArray.push(moment(currentDate).format("YYYY"));
+			currentDate = moment(currentDate).add(1, "year");
+		}
+		return dateArray;
+	};
 
-	let fiveyear = props.dates(prevfive, props.data);
+	let fiveyear = getDate(prevfive, moment().format('YYYY'));
+
+	console.log("5year", fiveyear);
 
 	fiveyear.map(data => {
 	  year.push(
@@ -32,6 +46,10 @@ export default function CalendarYearBody(props) {
 	});
 
 	rows.push(cells);
+
+	console.log("year,ss", year);
+	console.log("rows,ss", rows);
+
 	let yearlist = rows.map((d, i) => {
 	  return <tr>{d}</tr>;
 	});
