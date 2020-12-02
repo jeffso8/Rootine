@@ -39,7 +39,7 @@ function Sidebar() {
                     {echoUsers(habits)} 
                 </ul>
                 <div className="sidebar-logout">
-                    <a className="nav-link-logout" href="http://localhost:3001/logout" aria-label="Log Out">
+                    <a className="nav-link-logout" href={`${process.env.REACT_APP_URL}/logout`} aria-label="Log Out">
                     Log Out
                     </a>
                 </div>
