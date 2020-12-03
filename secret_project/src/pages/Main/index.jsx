@@ -17,7 +17,7 @@ function MainPage() {
             <a href="#" className="social">
               <SocialIcon network="facebook" style={{height:'50px', width:'50px'}} />
             </a>
-            <a href="http://localhost:3001/auth/google" className="social">
+            <a href={`${process.env.REACT_APP_URL}/auth/google`} className="social">
               <SocialIcon network="google" style={{height:'50px', width:'50px'}}/>
             </a>
             <a href="#" className="social">
@@ -38,7 +38,7 @@ function MainPage() {
             <a href="#" className="social">
               <SocialIcon network="facebook" style={{height:'50px', width:'50px'}} />
             </a>
-            <a href="http://localhost:3001/auth/google" className="social" role="button">
+            <a href={`${process.env.REACT_APP_URL}/auth/google`} className="social" role="button">
               <SocialIcon network="google" style={{height:'50px', width:'50px'}} />
             </a>
             <a href="#" className="social">

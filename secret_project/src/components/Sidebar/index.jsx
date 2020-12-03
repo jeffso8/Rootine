@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 function Sidebar() {
     const [habits, setHabit] = useState([]);
     dotenv.config({path: '../../../../.env'});
-    console.log(`../../../../.env`);
     useEffect(() => {
         getHabits().then((res)=>{
             setHabit(res)

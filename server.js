@@ -134,47 +134,61 @@ app.get('/tracker', function(req, res){
                   days: []
                   }]
               });
-
               newCompletion.save();
             } else {
               Tracker.find({date: moment().subtract(1, "day").format('L'), user: req.user.id}, function(err, foundTracker) {
-                const foundTrackerHabits = foundTracker[0].habits;
-                const uncompletedList = foundTrackerHabits.filter(habit => !habit.done);
-                if (!uncompletedList.length) {
-                  Completion.findOneAndUpdate({user: req.user.id, dates: {$elemMatch: {month : { $gte: moment().format('M')}}}},
-                  {$push: {"dates.$[el].days": moment().subtract(1,"day").format('D')}}, {arrayFilters: [{"el.month": moment().format('M')}], new: true}, 
-                      function (err, obj) {
-                        if (!obj) {
-                          Completion.update({user: req.user.id},
-                            {$addToSet: {dates: 
-                              {
-                              month:moment().format('M'), 
-                              days:[]
-                            }}
-                          }, function(err, obj) {
-                            console.log("err of month not found", err);
-                            console.log('tracker find completion month', obj);
-                          });
-                        }
-                        console.log('err', err);
-                        console.log('tracker find completion obj', obj);
-                    });
-                }
+                if(foundTracker.length) {
+                  const foundTrackerHabits = foundTracker[0].habits;
+                  const uncompletedList = foundTrackerHabits.filter(habit => !habit.done);
+                  if (!uncompletedList.length) {
+                    Completion.findOneAndUpdate({user: req.user.id, dates: {$elemMatch: {month : { $gte: moment().format('M')}}}},
+                    {$push: {"dates.$[el].days": moment().subtract(1,"day").format('D')}}, {arrayFilters: [{"el.month": moment().format('M')}], new: true}, 
+                        function (err, obj) {
+                          console.log("find completion object", obj);
+                          if (!obj) {
+                            Completion.update({user: req.user.id},
+                              {$addToSet: {dates: 
+                                {
+                                month:moment().format('M'), 
+                                days:[]
+                              }}
+                            }, function(err, obj) {
+                              console.log("err of month not found", err);
+                              console.log('tracker find completion month', obj);
+                            });
+                          }
+                          console.log('err', err);
+                          console.log('tracker find completion obj', obj);
+                      });
+                  }
+                } else {
+                  Completion.find({user: req.user.id, dates: {$elemMatch: {month : { $gte: moment().format('M')}}}}, function(err, found) {
+                    if (!found.length) {
+                      Completion.update({user: req.user.id},
+                        {$push: {dates: 
+                          {
+                          month:moment().format('M'), 
+                          days:[]
+                        }}
+                      }, function(err, obj) {
+                        console.log("err of month not found", err);
+                        console.log('tracker find completion month', obj);
+                      });
+                    }
+                  })
+                };
               });
             }
           })
-
           newTracker = new Tracker({
             date: moment().format('L'),
             habits: parsedHabits,
             user: req.user.id
           });
           newTracker.save();
-
           res.send(newTracker.habits);
-        } else {
-          console.log(err);
         }
+        console.log(err);
       })
     }
   });

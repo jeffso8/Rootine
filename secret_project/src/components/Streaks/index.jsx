@@ -15,7 +15,7 @@ function Streaks() {
     if (completedList[i] == (completedList[i+1] - 1)) {
       counter++;
     } else {
-      counter = 0;
+      counter = 1;
     }
   } 
 
