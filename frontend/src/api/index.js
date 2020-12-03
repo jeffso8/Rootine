@@ -44,6 +44,14 @@ export async function getCompletions(){
 	return data;
 };
 
+
+export async function getErrorMessage(){
+	const data = await fetch("/").then(res => {
+		return res.json();
+	})
+	return data;
+};
+
 export async function getHabitHistory(route){
 	const data = await fetch(route).then(res => {
 		return res.json();

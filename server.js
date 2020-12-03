@@ -14,6 +14,8 @@ const Completion = require("./models/Completion");
 const moment = require("moment");
 const path = require("path");
 const cors = require('cors');
+const flash = require('connect-flash');
+
 
 
 
@@ -34,6 +36,7 @@ app.use(
   })
 );
 
+app.use(flash());
 // app.options('*', cors());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -271,16 +274,16 @@ app.get('/logout', function(req, res){
 //login via email and password
 app.post('/login',
   passport.authenticate('local-login', { successRedirect: '/dashboard',
-                                   failureRedirect: '/',
-                                   failureFlash: true })
+                                      failureRedirect: (`${url}/`),
+                                      failureFlash: true })
 );
 
 //signup via email and password
 app.post('/signup',
   passport.authenticate('local-signup', { successRedirect: '/dashboard',
-                                   failureRedirect: '/',
-                                   failureFlash: true,
-                                   isLoggedIn: true })
+                                      failureRedirect: (`${url}/`),
+                                      failureFlash: true,
+                                      isLoggedIn: true })
 );
 
 app.get('/auth/google',

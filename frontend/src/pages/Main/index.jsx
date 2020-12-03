@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { SocialIcon } from 'react-social-icons';
+import { getErrorMessage } from 'api';
 import './main.css';
 
 
 function MainPage() {
   const [isboxClicked, setboxClicked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const signUpClick = () => {setboxClicked(true)};
   const signInClick = () => {setboxClicked(false)}
+
+  useEffect(() => {
+    getErrorMessage().then((res) => {
+      const error = res.message;
+      console.log("error message", error);
+
+      setErrorMessage(error);
+    });
+  }, errorMessage);
 
   return (
     <div className={`container ${isboxClicked ? "right-panel-active" : ""}`} id="container">
@@ -29,6 +40,7 @@ function MainPage() {
             <input className="box" type="email" name="email" id="email" placeholder="E-Mail" required/>
             <input className="box" type="password" name="password" id="password" placeholder="Password" required/>
             <button type="submit" name="submitDetails" value="Submit">Sign Up </button>
+            <span>{errorMessage}</span>
             </form>
         </div>
         <div className="form-container sign-in-container">
