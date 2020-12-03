@@ -4,6 +4,7 @@ import CalendarYear from "./calendarYear";
 
 export default function CalendarYearBody(props) {
 
+
   let year = [];
   let prevfive = moment()
 	  .set("year", props.data)
@@ -22,7 +23,7 @@ export default function CalendarYearBody(props) {
 		return dateArray;
 	};
 
-	let fiveyear = getDate(prevfive, moment().format('YYYY'));
+	let fiveyear = getDate(prevfive, moment(props.data));
 
 	console.log("5year", fiveyear);
 
