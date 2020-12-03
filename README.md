@@ -7,7 +7,7 @@ This is a web app, where users can keep track of habits they are trying to imple
 2. Technologies
 3. Setup 
 
-## General Info \
+## General Info 
 This project was inspired from the book Atomic Habits. The book's main takeaway is that habits, no matter how atomic, can make a huge impact on ones life in the longer term, but requires consistency. This consistency is simple in theory, but in practice it is much harder without the proper tools. The ability to visualize your habits, see the streaks that you have maintained, and have email/text cues when your habit should be performed are extremely beneficial when the user is trying to stay consistent.
 
 
