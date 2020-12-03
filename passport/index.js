@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const passport = require('passport');
 // const env = require('./.env');
 const User = require('../models/Users');
@@ -41,6 +42,31 @@ passport.use(new GoogleStrategy({
             });
         }
     }) 
+    })
+);
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "/auth/facebook/rootine",
+    profileFields: ['id', 'emails', 'name']
+  }, (accessToken, refreshToken, profile, done) => {
+    User.findOne({ facebookId: profile.id }).then((currentUser) => {
+        console.log("profile", profile);
+        if(currentUser){
+            console.log("user is", currentUser);
+            done(null, currentUser);
+        } else {
+            new User({
+                facebookId: profile.id,
+                first_name: profile.displayName,
+                email: profile._json.email
+            }).save().then((newUser) => {
+                console.log('new user created:' + newUser);
+                done(null, newUser);
+            });
+        }
+    })
     })
 );
 

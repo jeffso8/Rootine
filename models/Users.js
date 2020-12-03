@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema(
 		googleId: {
 			type:String
 		},
+		facebookId: {
+			type:String
+		},
 		habits: [{
 			type: Schema.Types.ObjectId,
 			ref: "Habits"

@@ -25,14 +25,11 @@ function MainPage() {
       <form action="/signup" method="post">
           <h1> Create Account </h1>
           <div className="social-container">
-            <a href="#" className="social">
+            <a href={`${process.env.REACT_APP_URL}/auth/facebook`} className="social">
               <SocialIcon network="facebook" style={{height:'50px', width:'50px'}} />
             </a>
             <a href={`${process.env.REACT_APP_URL}/auth/google`} className="social">
               <SocialIcon network="google" style={{height:'50px', width:'50px'}}/>
-            </a>
-            <a href="#" className="social">
-              <SocialIcon network="linkedin" style={{height:'50px', width:'50px'}} />
             </a>
           </div>
             <input className="box" type="text" name="first_name" id="first_name" placeholder="First name" required/>
@@ -47,14 +44,11 @@ function MainPage() {
           <form action="/login" method="post">
             <h1>Sign In</h1>
             <div className="social-container">
-            <a href="#" className="social">
+            <a href={`${process.env.REACT_APP_URL}/auth/facebook`} className="social">
               <SocialIcon network="facebook" style={{height:'50px', width:'50px'}} />
             </a>
             <a href={`${process.env.REACT_APP_URL}/auth/google`} className="social" role="button">
               <SocialIcon network="google" style={{height:'50px', width:'50px'}} />
-            </a>
-            <a href="#" className="social">
-              <SocialIcon network="linkedin" style={{height:'50px', width:'50px'}} />
             </a>
           </div>
             <span>or use your account details</span>

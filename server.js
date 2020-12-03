@@ -303,6 +303,22 @@ app.get('/auth/google/rootine',
   }
 );
 
+app.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ['profile', 'email'] }));
+
+app.get('/auth/facebook/rootine',
+  passport.authenticate('facebook'), (err, req, res, next) => {
+    if (err.name === 'FacebookTokenError') {
+      res.redirect('/auth/facebook');
+    } else {
+      console.log(err);
+    }
+  },
+  (req, res) => {
+    res.redirect(`${url}/dashboard`);
+  }
+);
+
 const authCheck = (req, res, next) => {
   if (!req.user) {
     res.status(401).json({
