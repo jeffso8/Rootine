@@ -4,7 +4,8 @@ const uri = 'mongodb+srv://admin-deen:fatherlordozai@cluster0.asaf9.mongodb.net/
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 .then(() => {
   console.log("MongoDB Connected…")

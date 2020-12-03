@@ -1,0 +1,137 @@
+
+body {
+  font-size: .875rem;
+}
+
+#sidebarMenu{
+  top: 0%;
+  width:15%;
+}
+
+.sidebar-menu {
+  position: relative;
+  top: 0%;
+  grid-column: span 4;
+  border: #333;
+}
+
+.sidebar-logout {
+  position: fixed;
+  bottom: 10%;
+  left: 3.5%;
+  height: 30px;
+  width: 100px;
+  border-radius: 20px;
+  border: 1px solid #15768777;
+  background-color:  #157687b3;
+}
+
+.sidebar-title2 {
+  padding-top: 1.5em;
+  font-style: italic;
+  color: #999;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin-top: 56px;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  background-color: rgba(153, 153, 153, .05);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .15);
+}
+
+@media (max-width: 500px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link-logout {
+  position: fixed;
+  font-weight: 500;
+  color: white;
+  font-size: medium;
+  padding: 2px;
+  left: 4.7%;
+  bottom: 8.3%;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #999;
+}
+
+.sidebar .nav-link.active {
+  color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+.nav-link{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.nav-item{
+  text-align: center;
+  margin: 0;
+}
+
+.first-nav-item {
+  text-align: center;
+  top: 5px;
+  padding-top: 5em;
+}
+
+.nav-item:hover a{
+  color:  #007bff;
+}
+
+.sidebar-logout:hover a{
+  color:  #f4f4f4;
+}
