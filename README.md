@@ -21,6 +21,18 @@ This project was inspired from the book Atomic Habits. The book's main takeaway 
 - NodeJS
 - Heroku 
 
+##User Guide
+You are welcome to test out the web app!
+https://rootine-project.herokuapp.com/
+
+I have created a Test Account that has some features which are built in that you may not be able to see when creating a new account. For example, the previous completed days, and the streaks, habits for individual days, etc. 
+
+Username/ Email: ....
+Password: ....
+
+
+
+
 
 
 
