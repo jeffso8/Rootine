@@ -23,7 +23,7 @@ This project was inspired from the book Atomic Habits. The book's main takeaway 
 - Heroku 
 
 ## Test Account:
-If you wish to visit the web app and check out the features, use the given test account!
+If you wish to visit the web app and check out the features, use the given test account! The app is hosted on a free dyno, so it may take a bit of time to boot up, as the dyno may be sleeping and needs a bit of time to wake up :)
 
 Test Account: 
 - Email: test@hotmail.com
